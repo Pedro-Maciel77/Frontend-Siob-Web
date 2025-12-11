@@ -1,192 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIOB - Sistema de Ocorrências dos Bombeiros</title>
-    
-    <!-- Redirecionamento automático para a página de registro -->
-    <meta http-equiv="refresh" content="3; url=Registro_SIOB.html">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <meta http-equiv="refresh" content="0; url=Login_SIOB.html">
+
     <style>
-        :root {
-            --bg: #111;
-            --sidebar: #262328;
-            --panel: #1f1d20;
-            --panel-2: #1f1d20;
-            --muted: #9b9b9b;
-            --accent: #e13b3b;
-            --glass: rgba(255,255,255,0.02);
-        }
-        
-        * { box-sizing: border-box; }
-        html, body { height: 100%; margin: 0; padding: 0; }
-        
         body {
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: linear-gradient(180deg, var(--bg) 0%, #121212 100%);
-            color: #e6e6e6;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e13b3b, #000000 100%);
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            height: 100vh;
+            color: white;
         }
-        
-        .brand {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-            font-weight: 700;
-            color: #f2f2f2;
-            margin-bottom: 40px;
-        }
-        
-        .brand .logo-text {
-            font-weight: 700;
-            font-size: 38px;
-            line-height: 1;
-        }
-        
-        .brand img {
-            display: block;
-            height: 60px;
-            width: auto;
-        }
-        
-        .card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-            border-radius: 12px;
-            padding: 36px;
-            box-shadow: 0 6px 30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.03);
-            max-width: 500px;
-            width: 100%;
+
+        .loading {
             text-align: center;
         }
-        
-        .shadow-top {
-            position: absolute;
-            left: 36px;
-            right: 36px;
-            height: 10px;
-            top: 66px;
-            filter: blur(8px);
-            opacity: 0.12;
-            background: linear-gradient(180deg, rgba(0,0,0,0.8), transparent);
-            border-radius: 8px;
-        }
-        
-        h1 {
-            font-size: 24px;
-            margin: 0 0 20px 0;
-            font-weight: 700;
-        }
-        
-        .muted {
-            color: var(--muted);
-            opacity: .75;
-            font-size: 0.9rem;
-            margin: 20px 0;
-        }
-        
+
         .spinner {
-            border: 4px solid rgba(255,255,255,0.3);
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top: 4px solid var(--accent);
+            border-top: 4px solid white;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
-        
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .btn {
-            height: 42px;
-            border-radius: 12px;
-            border: 0;
-            font-weight: 600;
-            background: linear-gradient(180deg, var(--accent), #b93131);
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 6px 18px rgba(225,59,59,0.28);
-            padding: 0 18px;
-            min-width: 120px;
-            margin-top: 20px;
-        }
-        
-        .btn:hover {
-            opacity: 0.9;
-        }
-        
-        .links {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        
-        .links a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .links a:hover {
-            text-decoration: underline;
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="brand">
-        <img src="img/image.png" alt="Painel Bombeiros" />
-        <div class="logo-text">Painel Bombeiros</div>
+    <div class="loading">
+        <div class="spinner"></div>
+        <h2>Carregando SIOB...</h2>
+        <p>Redirecionando para o sistema</p>
     </div>
 
-    <div class="card">
-        <div class="shadow-top" aria-hidden="true"></div>
-        
-        <h1>Sistema de Ocorrências dos Bombeiros</h1>
-        
-        <div class="spinner"></div>
-        
-        <p class="muted">Carregando SIOB...</p>
-        <p class="muted">Redirecionando para o sistema em <span id="countdown">3</span> segundos</p>
-        
-        <button class="btn" id="skipBtn">Entrar Agora</button>
-        
-        <div class="links">
-            <a href="Login_SIOB.html">Já tenho conta</a>
-            <a href="Recuperar_Senha.html">Esqueci minha senha</a>
-        </div>
-    </div>
 
     <script>
-        // Contador regressivo
-        let countdown = 3;
-        const countdownElement = document.getElementById('countdown');
-        
-        const countdownInterval = setInterval(function() {
-            countdown--;
-            countdownElement.textContent = countdown;
-            
-            if (countdown <= 0) {
-                clearInterval(countdownInterval);
-                window.location.href = 'Registro_SIOB.html';
-            }
-        }, 1000);
-        
-        // Botão para pular a espera
-        document.getElementById('skipBtn').addEventListener('click', function() {
-            clearInterval(countdownInterval);
-            window.location.href = 'Registro_SIOB.html';
-        });
+        setTimeout(function () {
+            window.location.href = 'Login_SIOB.html';
+        }, 2000);
     </script>
 </body>
+
 </html>
